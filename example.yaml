@@ -1,0 +1,29 @@
+openapi: "3.0.0"
+info:
+    version: 1.0.0
+    title: EXPOApi
+    description: A sample API
+servers:
+    - url: /v1
+paths:
+    /ping:
+        get:
+            description: |
+                ping then pong!
+            operationId: Ping
+            x-eov-operation-id: ping
+            x-eov-operation-handler: routes/ping
+            responses:
+                "200":
+                    description: OK
+                    # ...
+    /pong:
+        get:
+            description: |
+                pong then ping!
+            operationId: Pong
+            x-eov-operation-handler: routes/ping
+            responses:
+                "200":
+                    description: OK
+                    # ...
