@@ -6,8 +6,8 @@ import logger from "morgan"
 const cwd = path.normalize(process.cwd())
 const PORT = process.env.PORT || 8000
 const app = express()
-const apiSpec = path.join(cwd, "example.yaml")
-import esmresolver from "./index.js"
+const apiSpec = path.join(cwd, "api.yaml")
+import esmresolver from "../index.js"
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

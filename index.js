@@ -1,4 +1,5 @@
 import path from "path"
+import fs from "fs"
 
 const esmresolver = basePath => {
     return {
@@ -14,15 +15,32 @@ const esmresolver = basePath => {
             const handler = schema["x-eov-operation-handler"] || "routes"
 
             const handlerFile = `${handler}.js`
-            const modP = import(path.join(basePath, handlerFile))
+            const handlerPath = path.join(basePath, handlerFile)
+            const mod = { id: `${handlerFile}:${fn}`, default: {}, error: null }
+
+            try {
+                fs.statSync(handlerPath)
+                mod.default = import(handlerPath)
+                mod.default.then(m => {
+                    if (typeof m[fn] !== "function") {
+                        console.error(`Function not found ${id}`)
+                    }
+                })
+            } catch (err) {
+                console.error(`Loading error`, err)
+                mod.error = err
+            }
 
             return async (req, res, next) => {
+                if (mod.error) {
+                    return next(new Error(`Loading error ${id}`))
+                }
                 try {
-                    const mod = await modP
-                    mod[fn](req, res)
+                    const obj = await mod.default
+                    obj[fn](req, res)
                 } catch (err) {
-                    console.error(err)
-                    next(new Error(`Routing error ${handlerFile}:${fn}`))
+                    console.error(id, `${err}`.split("\n").shift())
+                    next(new Error(`Routing error ${id}`))
                 }
             }
         }

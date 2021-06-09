@@ -1,7 +1,7 @@
 import express from "express"
 
 /** @type {express.RequestHandler} */
-export const Ping = (req, res) => {
+export const ping = (req, res) => {
     res.end("pong")
 }
 

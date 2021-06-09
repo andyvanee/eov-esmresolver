@@ -1,0 +1,48 @@
+openapi: "3.0.0"
+info:
+    version: 1.0.0
+    title: EXPOApi
+    description: A sample API
+servers:
+    - url: /v1
+paths:
+    /:
+        get:
+            description: Home path defaults to routes.js
+            operationId: home
+            responses:
+                "200":
+                    description: OK
+    /ping:
+        get:
+            description: ping then pong!
+            operationId: Ping
+            x-eov-operation-id: ping
+            x-eov-operation-handler: routes/ping
+            responses:
+                "200":
+                    description: OK
+    /pong:
+        get:
+            description: pong then ping!
+            operationId: Pong
+            x-eov-operation-handler: routes/ping
+            responses:
+                "200":
+                    description: OK
+    /err:
+        get:
+            description: Function not defined will trigger a routing error
+            operationId: err
+            x-eov-operation-handler: routes/ping
+            responses:
+                "500":
+                    description: Error
+    /path:
+        get:
+            description: File not found will trigger a loading error
+            operationId: err
+            x-eov-operation-handler: routes/path
+            responses:
+                "500":
+                    description: Error
