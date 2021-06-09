@@ -3,6 +3,14 @@
 A resolver for <https://github.com/cdimascio/express-openapi-validator> which
 allows for ESM imports.
 
+### Install
+
+    yarn add eov-esmresolver
+
+or
+
+    npm install eov-esmresolver
+
 ### Example
 
 Follow setup example for passing the `operationHandlers` parameter
@@ -19,3 +27,5 @@ app.use(
     })
 )
 ```
+
+[Full example](./example/)
