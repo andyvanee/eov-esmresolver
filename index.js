@@ -23,7 +23,7 @@ const esmresolver = basePath => {
                 mod.default = import(handlerPath)
                 mod.default.then(m => {
                     if (typeof m[fn] !== "function") {
-                        console.error(`Function not found ${id}`)
+                        console.error(`Function not found ${mod.id}`)
                     }
                 })
             } catch (err) {
@@ -33,14 +33,14 @@ const esmresolver = basePath => {
 
             return async (req, res, next) => {
                 if (mod.error) {
-                    return next(new Error(`Loading error ${id}`))
+                    return next(new Error(`Loading error ${mod.id}`))
                 }
                 try {
                     const obj = await mod.default
                     obj[fn](req, res)
                 } catch (err) {
-                    console.error(id, `${err}`.split("\n").shift())
-                    next(new Error(`Routing error ${id}`))
+                    console.error(mod.id, `${err}`.split("\n").shift())
+                    next(new Error(`Routing error ${mod.id}`))
                 }
             }
         }
